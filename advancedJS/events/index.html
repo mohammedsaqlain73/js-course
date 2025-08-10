@@ -1,0 +1,68 @@
+<!--in js there many ways to ad events events to html elements
+========== but the most common three are below but best is addeventlistener
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>EVENTS effect </title>
+       <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+  <!--=====start inline event======-->
+    <h1>inline Event</h1>
+    <button onclick="alert('welcome to saq page')">greeting by 1 click</button>
+    <button ondblclick="alert('you double clicked')">greeting by 2 click</button>
+    <button onmouseover="alert('hey boka person')">greeting by mouse hover</button>
+
+
+  <!--=======end inline event======-->
+  <!--======== start dom event======-->
+   <h1>DOM EVENT handle</h1>
+    <button id="btn1">greet1</button>
+    <button id="btn2">greet2</button>
+    <button id="btn3">greet2</button>
+  <!--======= end dom event ========-->
+
+
+  <!--=======satrt addevent listener====-->
+  <h1>DOM EVENT handle</h1>
+    <button id="btn4">greet1</button>
+    <button id="btn5">greet2</button>
+    <button id="btn6">greet2</button>
+
+
+  <!--=======end addevent listener=====-->
+
+
+
+
+<script>
+  // document.getElementById("btn1").onclick="alert('hey by dom')"; this is wrong as cant done directly
+  document.getElementById("btn1").onclick =  () => { //arrow func
+  alert('hey by dom 1click');
+  };
+  document.getElementById('btn2').ondblclick = function ()  { //anonymous func
+     alert("hey by dom 2 click");
+  };
+  document.getElementById('btn3').onmouseover = function() {
+     alert("hey by dom hover");
+  };
+
+  //REMEMBER FOR EVENT  LISTENER YOU NEED TO GIVE EVENT WHICH WILL FIRE THEN A FUNCTION
+
+  document.getElementById("btn4").addEventListener('click',() => { //here (on) not added only click,mouseover,dblclick
+    alert('welocme by event listener 1click');
+});
+document.getElementById('btn6').addEventListener("mouseover",function(){
+  alert('greet by hover');
+});
+document.getElementById('btn5').addEventListener("dblclick",( ) => {
+  alert("hey by 2click");
+});
+
+</script>
+
+  </body>
+</html>

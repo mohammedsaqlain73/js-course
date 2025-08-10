@@ -1,0 +1,69 @@
+<!--! How exactly call stack works  -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function firstFunction() {
+        console.log("First function");
+        secondFunction();
+      }
+
+      function secondFunction() {
+        console.log("Second function");
+        setTimeout(() => {
+          console.log(`fun2 is starting`);
+        }, 3000);
+        thirdFunction();
+      }
+
+      function thirdFunction() {
+        console.log("Third function");
+      }
+
+      firstFunction();
+
+/*
+            call stack (fefo)                                                    web api(part of browser not js )
+      =======================    +                                           ==========================                    1.console
+                                 +                                       setTimeout(() => {                                2. timers
+                                 +                                      console.log(`fun2 is starting`);                   3.  dom
+                                 +                                     }, 3000);                                           4.ajax/api calls
+       so   on.......            +                                  ^
+                                 +                                  ^ after 3s it will move to callback queue
+    after it printed move out                                       ^
+and settimeout loaded but it is-------------------------------------
+a async move to web api
+ 4. console.log("Second function") +                                                            microtask queue(more priority than callstack queue)
+                                 +                                                                       =================================
+  its console loaded             +
+  3.secondFunction()             +                                                                 promises,dom tree mutation
+  (after console print it move   +
+  fefo then next loaded that  is +
+ 2nd)                            +                event loop                                                       callback queue
+2.console.log("First function")  +                                                            =================================
+                                  +     (send from cq/MTQto cs when callstack is empty)       3s timer function move to callback after all gets executed
+      1.firstfun()                +                                                                 then executed
+                                  +
+     global exection
+     context(GEC)
+
+
+
+*/
+
+
+
+
+
+
+
+
+    </script>
+  </body>
+</html>

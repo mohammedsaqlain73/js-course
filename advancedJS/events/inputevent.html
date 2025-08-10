@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>EVENTS mouse</title>
+
+       <style>
+        html {
+  color: #fff;
+  font-size: 62.5%;
+}
+
+body {
+  height: 100vh;
+  background-color: #0b0c0f;
+  font-family: "Urbanist", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap:2rem;
+
+}
+p{
+  font-size: 4rem;
+}
+input {
+  background-color: #2bf802;
+  padding: 0.6rem 2.4rem;
+  border-radius: 10rem;
+  margin-right: 3.6rem;
+  cursor: pointer;
+  transition: all 0.3s linear;
+
+  &:hover {
+    box-shadow: inset 0 0 0 0.2rem #c5e514;
+    background-color: transparent;
+    color: #cbde5e; ;
+  }
+}
+        </style>
+      </head>
+      <body>
+          <div>
+            <input type="text" id="myinput" name="username" placeholder="type a key....">
+            <div id="output">
+              <p class="inputvalue">input value:</p>
+              <p class="inputname">input name:</p>
+              <p class="inputtype">input type:</p>
+              <p class="eventtype">Event type:</p>
+            </div>
+           </div>
+           <script>
+               // input= document.getElementById("myinput").value;
+                //console.log(input); THIS WILL  ALWAYS GIVE NULL VALUE
+                //  AS IT TRY TO FETCH ONCE LOADED BEFORE USER ENTER INTO INPUT  FIELD
+
+                const handlekeypress = (event) =>{ //why event:-this event is a very powerfull thing in java script the window object gives it by default
+                  console.log(event);//this gives a object of the action fired. here details of the the keydown
+
+                document.querySelector(".inputvalue").textContent=`input value :${event.data}`;//this should be inside the fired function
+                document.querySelector('.inputname').textContent=`input name :${event.target.name}`;//as name present in event's target                document.querySelector('.inputtype').textContent=`input type :${event.inputType}`;
+                document.querySelector('.eventtype').textContent=`Event type :${event.type}`;
+              }
+
+                var input= document.getElementById("myinput");
+                input.addEventListener('input',handlekeypress);
+                //======you can also fire change event will will show output once you change
+                // position i.e out of the box in input what you write immediately in output but
+                // in chnage only when you change current action 
+
+
+           </script>
+      </body>
+      </html>

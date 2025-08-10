@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>EVENTS effect </title>
+    <style>
+      *{
+        margin:0;
+      padding:0;
+     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    }
+    html{
+      font-size: 62.5%;;
+    }
+    body{
+      background-image:linear-gradient(to right,#996bcb 0%,#2575fc 100%);
+      height:100vh;
+      display:flex;
+      justify-items:center;
+      align-items:center;
+      flex-direction:column;
+      margin-top:120px;
+
+
+    }
+
+    p,li{
+      font-size:1.7rem;
+      letter-spacing:0.1rem;
+      line-height:1.6;
+    }
+    input{
+      width:30rem;
+      padding:1rem;
+      border:1px solid #070707;
+      border-radius:0.8rem;
+    }
+    h1{
+      margin-bottom: 2rem;
+    }
+    .main-todo-list{
+      width:35rem;
+      display:grid;
+      grid-template-columns:1fr 1fr;/*this gives them horizontal space*/
+      align-items:center;/*in center*/
+      height:auto;
+    }
+    .btn{
+
+      padding:1rem;
+      margin-left:2rem;
+      color:#160404;
+      background-color:#db78ea;
+      border-radius:4rem;
+      font-size:2rem;
+      &:hover{
+        box-shadow:rgba(0,0,0,0.35)0px 5px 15px;
+      }
+
+    }
+    .dltbtn{
+      padding:1rem;
+
+      color:#160404;
+      background-color:#c5c275;
+      border-radius:4rem;
+      font-size:1.5rem;
+      &:hover{
+        box-shadow:rgba(0,0,0,0.35)0px 5px 15px;
+      }
+    }
+    li{
+      cursor: pointer;
+      list-style-type:circle;
+      margin: 2rem 1rem;
+      text-transform: capitalize;
+      font-weight:500;
+      &:hover{
+        color:#a6f409;
+      }
+    }
+    .todo-list-item{
+      margin-top:1rem;
+    }
+    .saq{
+      position: relative;
+    }
+    .todo-lists-elem{
+      margin-top:3rem;
+      background-color: #7184e2;
+      border-radius:4rem;
+      position:absolute;
+      width:40rem;
+      &:hover{
+        box-shadow:rgba(0,0,0,0.35)0px 5px 15px;
+      }
+    }
+    .main-todo-list {
+      display:grid;
+      place-items:center;
+
+        &:hover{
+        box-shadow:rgba(18, 18, 18, 0.35)0px 5px 15px;
+        border-radius:3rem;
+      }
+
+      }
+
+
+
+
+    </style>
+
+  </head>
+  <body>
+    <h1>TODO LIST</h1>
+    <br>
+    <form autocomplete="off">
+      <div class="saq">
+        <input type="text" id="inputvalue">
+        <button class="btn">ADD TODO</button>
+      </div>
+      <section class="todo-lists-elem"></section>
+    </form>
+    <script>
+      //references
+      const inputtododata= document.getElementById('inputvalue');
+      const sectiontodo =document.querySelector(".todo-lists-elem");
+
+      //========================================= retrive  the stored onces =============================================
+      const getlocaltodolist=() =>{
+          return JSON.parse(localStorage.getItem('mytodo'));//values
+        };
+
+       let localtodolist=getlocaltodolist()||[];//empty one bcz if nothing is there like at start or other it
+        //  will assign empty array otherwise it will give undefined giving error.
+
+
+
+
+    // ===========================core function =========================================================================
+      const addtodolist = (e) =>{
+        e.preventDefault();
+
+
+        // ===================================retrived stored onces + new added in input fields then agasin stored =====================================
+        //empty array this will generate wrong array as every time you click add yodo it becomes
+        //  empty and add a element so change its scope
+        //let localtodolist=[];
+
+        //add the data to local storage so that wont loss when data is refreshed to add we need the the which is
+        // inputted which will be stored in the form of array so need a empty array before it
+
+
+        const todolistvalue=inputtododata.value.trim();
+         //after add click input field is blank
+        if(todolistvalue!= "" && !localtodolist.includes(todolistvalue)){ //prevent duplicates and null
+
+        localtodolist.push(todolistvalue);//this is not python append in js only for dom manupulation
+
+        //i want that todo list must not have duplicate i.e same task should not be present.
+        // for it we need to convert present array  to set
+
+        //localtodolist=new Set(localtodolist); this will give error as push not defined in set.
+        // bcz initially array present so pushed and then it is converted to set then for next input now
+        // locatodo is set .push not possible push only for array convert it to array.convert that set again to array
+
+        //=[...new Set(localtodolist)];// this remove duplicate ones but we get array 0f set obj for it we need to
+        //  use ... opertor to open it but if condition does it work
+        localStorage.setItem("mytodo",JSON.stringify(localtodolist));//to server only string
+
+
+
+
+
+
+
+//================================= below input it is added ========================================
+
+        const divelem = document.createElement("div");
+        divelem.classList.add('main-todo-list');//under this div we neeed a li having user input value and a button
+        divelem.innerHTML=`<li> ${inputtododata.value} </li> <button class ="dltbtn">DELETE</button>`;//add this div to section
+        sectiontodo.append(divelem);
+      };
+      inputtododata.value='';// make the input clear once hit add todo
+    };
+
+
+
+
+//============want to show STORED TODO in page even if refreshed when loaded with stord values =========================
+//if i wrote this under click event function then it will show only when addtodo is click i want to show when page loaded
+ const addtodisplay = (curelem) =>{
+  const divelem = document.createElement("div");
+        divelem.classList.add('main-todo-list');//under this div we neeed a li having user input value and a button
+        divelem.innerHTML=`<li> ${curelem} </li> <button class ="dltbtn">DELETE</button>`;//add this div to section
+        sectiontodo.append(divelem);
+ }
+
+const showtodoatr = () =>{
+  localtodolist.forEach( (curelem) => {//retrive from localtodo
+    addtodisplay(curelem)//each todo is displayed
+  } );
+
+};
+
+showtodoatr();
+/*======== we stll have problem that duplicate value can be added to display but not to local storage bcz of set
+  due to eneter key empty also added  ============================================================
+  To solve it when a new todo added   created only when if it not in localtodo or null */
+
+
+//=======================================event listeners ================================
+
+
+      document.querySelector('.btn').addEventListener('click',(e) =>{
+           addtodolist(e);//why passing this e ?bcz form has a default
+           // state to submite the form to prevent to use ned event object
+           //we also  should  stored inputted in local storage too and retrive.
+           });
+      inputtododata.addEventListener('keypress',(e) =>{
+          if(e.key ==='enter'){
+            addtodolist(e);
+          }
+
+        });
+
+
+
+    //============================== delete functionality ================================
+
+
+       const updatelocal = () => {
+        return localStorage.setItem('mytodo',JSON.stringify(localtodolist));
+       }
+        const removetodoitem = (e) =>{
+          // i have the reference which is to be deleted i.e dltbtn.its contents should be deleted from local storage which is
+          //contents of   list which is the previous sibling of ritem
+          const ritem = e.target // gives which is clicked to get deleted i.e dltbtn
+
+          let ricontent= ritem.previousElementSibling.innerText;//this gives the content with first letter capitalized due to css
+          //console.log(ricontent);
+
+          //remove it from list
+          localtodolist =localtodolist.filter((cur)=>{ //filter return a new array  so need a variable to store it
+            //console.log(cur);
+           return cur != ricontent.toLowerCase();//return array of all todo excepts dlted one
+
+          });
+          //now update the local storage
+          updatelocal(localtodolist);//new localtodolist
+
+//==================================this to remove from ui========================================
+          //now the task is to remove it  from site the list and dlt button which is under a div .
+          // now my task is to get the this div.this div is parent of of li anf dltbtn.we have
+          // already  dltbtn just get its parentElement
+          let parent=ritem.parentElement;
+          parent.remove();
+//==============================================================================================================
+
+
+        };
+
+
+    //we know that if you apply click event to a parent then if you click which of its child
+    // you will get by event listener.here parent div having dltbtn is list-item-elem whose referenece is
+    // sectiontodo apply to it.
+    sectiontodo.addEventListener('click',(e)=>{
+      e.preventDefault();//any chnge in form submit the form
+      //now you add click event to entire section tag div if you click any area of it it will fire the fucntion
+      //but i want that event is fired only the dlt button
+      if(e.target.classList.contains('dltbtn')){
+         removetodoitem(e);
+
+      };
+    });
+
+
+
+    </script>
+  </body>
+  </html>

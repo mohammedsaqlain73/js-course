@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>gradient maker</title>
+    <style>
+      body{
+        background-image: linear-gradient(
+        to right,
+        #051937,
+        #0890e0,
+        #008793,
+        #00bf72,
+        #a8eb12
+        );
+        margin:0;
+        height:100vh;
+      }
+
+    .gradient{
+       height:100%;
+        display: flex;
+        flex-direction:column;
+       justify-content:center;
+       align-items:center;
+       gap:1rem;
+
+      }
+      .buttons{
+        display:flex;
+        gap:20px;
+        margin-bottom:10px;
+      }
+      button{
+        border:none;
+        padding:15px 40px;
+        font-size:16px;
+        font-weight:bold;
+        border-radius:30px;
+        box-shadow:0 4px 10px rgba(0,0,0,0.3);
+        cursor:pointer;
+        color:white;
+        transition:transform 0.2s ease ;
+
+      }
+      button:first-child{
+        background-color:#051937;
+      }
+      button:last-child{
+        background-color: #a8eb12;
+      }
+    button:hover{
+      transform:scale(1.05);
+    }
+    p{
+      color:white;
+      font-size:18px;
+      font-weight:500;
+    }
+    .copycode{
+      margin-top:20px;
+      padding:15px 25px;
+      font-size:20px;
+      color:white;
+      border-left:  5px solid rgba(255, 255, 255, 0.93);
+      backdrop-filter:blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      box-shadow:0 4px 12px rgba(0,0,0,0.2);
+      text-align:left;
+    }
+
+    </style>
+  </head>
+ <body>
+  <section class="gradient">
+    <div class="buttons">
+    <button id="btn1">#051937</button>
+    <button id="btn2">#008793</button>
+    </div>
+    <h2>COPY YOUR CHOOSED GRADIENT HERE</h2>
+    <div class="copycode">
+      background-image:linear-gradient(to right, rgb(92,145,229),rgb(152,63,198))
+    </div>
+  </section>
+  <script>
+    let btn1=document.getElementById('btn1');
+    let btn2=document.getElementById('btn2');
+    let copydiv=document.querySelector(".copycode");
+    let rgb='rgb(92,145,229)';//as initially they were undefined so give them a value
+    let rgb2='rgb(152,63,198)';
+
+
+const hexcode = () =>{
+  let myhexcode="0123456789abcdef";
+  let color="#";
+  for(let i=0; i<6;i++){
+    color=color+myhexcode[Math.floor(Math.random()*16)]
+  }
+    return color;
+}
+
+const handlebutton1=() =>{
+   rgb=hexcode();
+  console.log(rgb);
+  document.body.style.backgroundImage=`linear-gradient(to right,${rgb},${rgb2})`;
+  copydiv.innerHTML=`background-image:linear-gradient(to right,${rgb},${rgb2})`;
+  btn1.innerText=rgb;
+
+};
+
+const handlebutton2=() =>{
+   rgb2=hexcode();
+  console.log(rgb2);
+  document.body.style.backgroundImage=`linear-gradient(to right,${rgb},${rgb2})`;
+  copydiv.innerHTML=`background-image:linear-gradient(to right, ${rgb},${rgb2})`;
+  btn2.innerText=rgb2;
+}
+    btn1.addEventListener('click',handlebutton1);
+
+    btn2.addEventListener('click',handlebutton2);
+    copydiv.addEventListener('click', () =>{
+      navigator.clipboard.writeText(copydiv.innerText);
+      alert("gradient copied");
+    }
+  );
+  </script>
+</body>
+</html>

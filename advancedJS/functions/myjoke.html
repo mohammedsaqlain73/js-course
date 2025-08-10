@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style></style>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>jokes by saqlain!</h1>
+      <section class="api_body">
+        <div id="first"></div>
+        <div id="second"></div>
+      </section>
+      <button id="fetchJoke">Get Another Joke</button>
+    </div>
+
+    <script>
+
+        /* =================================api fetch to make http request===============================
+        fetch (url ,{ //fetch is a promise
+           header : { //it is basic here we can pass body also many more
+           Accept : "application/Json", // it is in Json format
+           },
+        })
+        .then((response) => response.Json()) ====fetch () gives respond with json format data we neeed to prase here doinh
+        .then((data) => console.log(data))       it using literal.Json()
+
+        */
+
+      const apiBody = document.querySelector(".api_body");
+      const apiBody1 = document.getElementById("first");
+      const apiBody2 = document.getElementById("second");
+      const apiUrl = "https://official-joke-api.appspot.com/jokes/random";
+
+
+const fetchData = () =>{
+  fetch(apiUrl ,{
+    headers : {
+      Accept: "application/Json",
+    },
+  })
+  .then((op) => {
+    console.log(op)  //we saw that fetch gives data in Json format need to parrse it.
+    return op.json(); //parse to normal  {id: 'KBsrz5ws4Ed', joke: 'Why are fish easy to weigh? Because they have their own scales.', status: 200}
+  })
+  .then((result) => {
+   console.log(result);//Why are fish easy to weigh? Because they have their own scales.
+  // now append this data to apibody
+   apiBody1.innerHTML=result.setup;
+    apiBody2.innerHTML=result.punchline;
+  })
+
+  };
+
+
+//i want that when someone open this app by defauylt one joke should be there for it run fetch
+fetchData();
+
+      // Add event listener to fetch a new joke when the button is clicked
+      document.getElementById("fetchJoke").addEventListener("click", fetchData);
+    </script>
+  </body>
+</html>
